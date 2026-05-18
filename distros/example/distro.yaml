@@ -1,0 +1,5 @@
+name: example
+description: Minimal placeholder distro — replace with a real composition
+devcontainer: arch-base@v1.0.0
+packages:
+  - shell-zsh@v1.0.0

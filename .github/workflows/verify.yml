@@ -1,0 +1,34 @@
+name: Verify
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build gen-registry
+        run: go build ./cmd/gen-registry/
+
+      - name: Run tests
+        run: go test ./...
+
+      - name: Validate all distro.yaml files
+        run: |
+          for dir in distros/*/; do
+            if [ ! -f "$dir/distro.yaml" ]; then
+              echo "ERROR: $dir is missing distro.yaml"
+              exit 1
+            fi
+          done
+          echo "All distro.yaml files present"
+
+      - name: Dry-run registry generation
+        run: ./gen-registry distros v0.0.0-dry-run
