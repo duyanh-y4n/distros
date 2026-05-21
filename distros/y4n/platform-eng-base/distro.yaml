@@ -1,0 +1,13 @@
+name: y4n/platform-eng-base
+description: Arch-based environment for cloud-native platform engineers
+devcontainer: arch-base@v0.1.0
+packages:
+  - cli-essentials@v0.1.0
+  - git-extras@v0.1.0
+  - zsh-config@v0.1.0
+  - neovim-config@v0.1.0
+  - k8s-tools@v0.1.0
+  - aws-cli@v0.1.0
+  - observability@v0.1.0
+  - iac-tools@v0.1.0
+  - flux@v0.1.0
