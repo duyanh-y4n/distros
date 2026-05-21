@@ -1,5 +1,5 @@
 distros:
     - name: example
       description: Minimal placeholder distro — replace with a real composition
-      latestTag: v0.1.0
-      changelogUrl: https://github.com/duyanh-y4n/distros/releases/tag/v0.1.0
+      latestTag: v0.1.1
+      changelogUrl: https://github.com/duyanh-y4n/distros/releases/tag/v0.1.1
