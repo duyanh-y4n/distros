@@ -20,15 +20,11 @@ jobs:
       - name: Run tests
         run: go test ./...
 
-      - name: Validate all distro.yaml files
-        run: |
-          for dir in distros/*/; do
-            if [ ! -f "$dir/distro.yaml" ]; then
-              echo "ERROR: $dir is missing distro.yaml"
-              exit 1
-            fi
-          done
-          echo "All distro.yaml files present"
+      - name: Install dpod-seed
+        run: go install github.com/iamy4n-dev/dpod-seed@latest
+
+      - name: Validate distro content
+        run: dpod-seed validate repo
 
       - name: Dry-run registry generation
         run: ./gen-registry distros v0.0.0-dry-run
