@@ -1,5 +1,6 @@
 name: y4n/platform-eng-base
 description: Arch-based environment for cloud-native platform engineers
+status: stable
 devcontainer: arch-base@v0.1.0
 packages:
   - cli-essentials@v0.1.0

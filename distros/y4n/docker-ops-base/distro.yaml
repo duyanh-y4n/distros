@@ -1,5 +1,6 @@
 name: y4n/docker-ops-base
 description: Arch-based environment for container lifecycle management and security
+status: stable
 devcontainer: arch-base@v0.1.0
 packages:
   - cli-essentials@v0.1.0
