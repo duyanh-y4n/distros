@@ -112,6 +112,7 @@ func TestGenerate_SingleDistro(t *testing.T) {
 	writeDistro(t, dir, "example", `
 name: example
 description: An example distro
+status: stable
 devcontainer: arch-base@abc123
 packages:
   - shell-zsh@def456
@@ -134,11 +135,74 @@ packages:
 	if e.Description != "An example distro" {
 		t.Errorf("description: want %q, got %q", "An example distro", e.Description)
 	}
+	if e.Status != "stable" {
+		t.Errorf("status: want %q, got %q", "stable", e.Status)
+	}
 	if e.LatestTag != "v1.2.3" {
 		t.Errorf("latestTag: want %q, got %q", "v1.2.3", e.LatestTag)
 	}
-	wantURL := "https://github.com/duyanh-y4n/distros/releases/tag/v1.2.3"
+	wantURL := "https://github.com/iamy4n-dev/distros/releases/tag/v1.2.3"
 	if e.ChangelogURL != wantURL {
 		t.Errorf("changelogUrl: want %q, got %q", wantURL, e.ChangelogURL)
+	}
+}
+
+func writeOrgDistro(t *testing.T, dir, org, name, content string) {
+	t.Helper()
+	p := filepath.Join(dir, org, name)
+	if err := os.MkdirAll(p, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(p, "distro.yaml"), []byte(content), 0o644); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestGenerate_OrgNamespacedDistro(t *testing.T) {
+	dir := t.TempDir()
+	writeOrgDistro(t, dir, "acme", "my-distro", `name: acme/my-distro
+description: Org-namespaced distro
+status: stable
+devcontainer: arch-base@v1.0.0
+packages: []
+`)
+
+	out, err := Generate(dir, "v1.0.0")
+	if err != nil {
+		t.Fatalf("Generate: %v", err)
+	}
+
+	rf := parseRegistry(t, out)
+	if len(rf.Distros) != 1 {
+		t.Fatalf("want 1 distro, got %d: %v", len(rf.Distros), rf.Distros)
+	}
+	if rf.Distros[0].Name != "acme/my-distro" {
+		t.Errorf("name: want %q, got %q", "acme/my-distro", rf.Distros[0].Name)
+	}
+}
+
+func TestGenerate_MixedFlatAndOrg(t *testing.T) {
+	dir := t.TempDir()
+	writeDistro(t, dir, "flat-distro", `name: flat-distro
+description: Flat layout distro
+status: experimental
+devcontainer: arch-base@v1.0.0
+packages: []
+`)
+	writeOrgDistro(t, dir, "acme", "org-distro", `name: acme/org-distro
+description: Org-namespaced distro
+status: stable
+devcontainer: arch-base@v1.0.0
+packages: []
+`)
+
+	out, err := Generate(dir, "v1.0.0")
+	if err != nil {
+		t.Fatalf("Generate: %v", err)
+	}
+
+	rf := parseRegistry(t, out)
+	if len(rf.Distros) != 2 {
+		t.Fatalf("want 2 distros, got %d: %v", len(rf.Distros), rf.Distros)
 	}
 }
