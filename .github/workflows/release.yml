@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   publish-registry:
@@ -26,10 +27,23 @@ jobs:
       - name: Generate registry.yaml
         run: ./gen-registry distros "${{ github.ref_name }}" > registry.yaml
 
-      - name: Commit and push registry.yaml
+      - name: Open PR for registry update
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          branch="chore/registry-${{ github.ref_name }}"
+          git checkout -b "$branch"
           git add registry.yaml
+          if git diff --cached --quiet; then
+            echo "registry.yaml already up to date, nothing to do"
+            exit 0
+          fi
           git commit -m "chore: regenerate registry.yaml for ${{ github.ref_name }}"
-          git push origin main
+          git push origin "$branch"
+          gh pr create \
+            --title "chore: update registry.yaml for ${{ github.ref_name }}" \
+            --body "Automated registry update for release \`${{ github.ref_name }}\`. Merge this to make the distros discoverable via \`dpod-seed list\`." \
+            --base main \
+            --head "$branch"
