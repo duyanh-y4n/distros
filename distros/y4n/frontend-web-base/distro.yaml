@@ -1,0 +1,12 @@
+name: y4n/frontend-web-base
+description: Debian Slim environment for web frontend development and testing
+devcontainer: debian-slim@v0.1.0
+packages:
+  - cli-essentials@v0.1.0
+  - git-extras@v0.1.0
+  - zsh-config@v0.1.0
+  - neovim-config@v0.1.0
+  - node-runtime@v0.1.0
+  - bun@v0.1.0
+  - browser-test@v0.1.0
+  - js-linting@v0.1.0
