@@ -1,0 +1,13 @@
+name: y4n/architect-ai
+description: AI-powered software architect environment with Claude Code, Codex, OpenCode, and Pi for code exploration and technical decision-making
+status: experimental
+devcontainer: arch-base@v2.0.0
+packages:
+  - fish-config@v0.1.0
+  - node-runtime@v0.1.0
+  - cli-essentials@v0.1.0
+  - tui-power@v0.1.0
+  - ai-agent-claude@v0.2.0
+  - ai-agent-codex@v0.2.0
+  - ai-agent-opencode@v0.2.0
+  - ai-agent-pi@v0.2.0
