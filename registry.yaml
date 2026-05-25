@@ -2,25 +2,30 @@ distros:
     - name: example
       description: Minimal placeholder distro — replace with a real composition
       status: experimental
-      latestTag: v0.2.0
-      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.2.0
+      latestTag: v0.3.0
+      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.3.0
+    - name: y4n/architect-ai
+      description: AI-powered software architect environment with Claude Code, Codex, OpenCode, and Pi for code exploration and technical decision-making
+      status: experimental
+      latestTag: v0.3.0
+      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.3.0
     - name: y4n/backend-python-base
       description: Debian Slim environment for Python API development and testing
       status: stable
-      latestTag: v0.2.0
-      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.2.0
+      latestTag: v0.3.0
+      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.3.0
     - name: y4n/docker-ops-base
       description: Arch-based environment for container lifecycle management and security
       status: stable
-      latestTag: v0.2.0
-      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.2.0
+      latestTag: v0.3.0
+      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.3.0
     - name: y4n/frontend-web-base
       description: Debian Slim environment for web frontend development and testing
       status: stable
-      latestTag: v0.2.0
-      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.2.0
+      latestTag: v0.3.0
+      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.3.0
     - name: y4n/platform-eng-base
       description: Arch-based environment for cloud-native platform engineers
       status: stable
-      latestTag: v0.2.0
-      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.2.0
+      latestTag: v0.3.0
+      changelogUrl: https://github.com/iamy4n-dev/distros/releases/tag/v0.3.0
