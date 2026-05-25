@@ -24,6 +24,8 @@ jobs:
         run: go install github.com/iamy4n-dev/dpod-seed@$(cat .dpod-seed-version)
 
       - name: Validate distro content
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: dpod-seed validate repo
 
       - name: Dry-run registry generation
