@@ -1,0 +1,58 @@
+name: Weekly registry sync
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'   # Sunday 02:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Install dpod-seed
+        run: go install github.com/iamy4n-dev/dpod-seed@$(cat .dpod-seed-version)
+
+      - name: Validate distro content
+        run: dpod-seed validate repo
+
+      - name: Build gen-registry
+        run: go build ./cmd/gen-registry/
+
+      - name: Regenerate registry.yaml
+        run: |
+          latest_tag=$(git tag --sort=-version:refname | head -1)
+          ./gen-registry distros "$latest_tag" > registry.yaml
+
+      - name: Open PR if registry changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          branch="chore/weekly-registry-sync"
+          git checkout -b "$branch" 2>/dev/null || git checkout "$branch"
+          git add registry.yaml
+          if git diff --cached --quiet; then
+            echo "registry.yaml is up to date, nothing to do"
+            exit 0
+          fi
+          git commit -m "chore: weekly registry sync $(date -u +%Y-%m-%d)"
+          git push --force origin "$branch"
+          gh pr create \
+            --title "chore: weekly registry sync $(date -u +%Y-%m-%d)" \
+            --body "Automated weekly registry sync. Re-validated all distros and regenerated registry.yaml from latest tag." \
+            --base main \
+            --head "$branch" \
+            2>/dev/null || echo "PR already open, branch updated"

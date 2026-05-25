@@ -21,7 +21,7 @@ jobs:
         run: go test ./...
 
       - name: Install dpod-seed
-        run: go install github.com/iamy4n-dev/dpod-seed@v0.4.0
+        run: go install github.com/iamy4n-dev/dpod-seed@$(cat .dpod-seed-version)
 
       - name: Validate distro content
         run: dpod-seed validate repo
