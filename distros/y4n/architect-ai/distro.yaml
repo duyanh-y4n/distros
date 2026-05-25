@@ -3,10 +3,10 @@ description: AI-powered software architect environment with Claude Code, Codex, 
 status: experimental
 devcontainer: arch-base@v0.1.0
 packages:
-  - fish-config@v0.1.0
-  - node-runtime@v0.1.0
-  - cli-essentials@v0.1.0
-  - tui-power@v0.1.0
+  - fish-config@v0.2.0
+  - node-runtime@v0.2.0
+  - cli-essentials@v0.2.0
+  - tui-power@v0.2.0
   - ai-agent-claude@v0.2.0
   - ai-agent-codex@v0.2.0
   - ai-agent-opencode@v0.2.0
